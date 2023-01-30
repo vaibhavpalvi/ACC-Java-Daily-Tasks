@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org
+      xmlns:sec=http://www.thymeleaf.org/extras/spring-security
+      xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta charset="ISO-8859-1">
+<title>Employee Management System</title>
+</head>
+<body>
+	<div align="center" class="container my-2">
+		
+		<h1>Employee List</h1>
+		
+		<a th:href = "@{/shownewemployee}" class="btn btn-primary btn-md mb-3">Add Employee</a>
+		<table border="1" class="table table-striped table-dark">
+		<thead>
+		
+		<tr>
+			<th scope="col">Employee First Name</th>
+			<th scope="col">Employee Last Name</th>
+			<th scope="col">Employee Email</th>
+			<th scope="col">Actions</th>
+		</tr>
+		
+		</thead>
+		<tbody>
+		
+			<tr th:each="employees : ${listemployees}">
+			<td th:text = "${employees.firstName}"></td>
+			<td th:text = "${employees.lastName}"></td>
+			<td th:text = "${employees.email}"></td>
+			<td><a th:href="@{/showFormForUpdate/{id}(id=${employees.id})}" class="btn btn-primary" >Update</a>
+				<a th:href="@{/deleteemployee/{id}(id=${employees.id})}" class="btn btn-danger" >Delete</a>
+			</td>
+			</tr>
+		
+		</tbody>
+		</table>
+		
+		
+	</div>
+	
+	
+</body>
+</html>
