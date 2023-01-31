@@ -1,5 +1,8 @@
 package com.acc.springbootfileuploadanddownload.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +29,7 @@ public class AttachmentController {
 		this.attachmentService = attachmentService;
 	}
 	
+	// save file in the database
 	@PostMapping("/upload")
 	public ResponseData uploadFile(@RequestParam("file")MultipartFile file) throws Exception {
 		Attachment attachment = null;
@@ -39,6 +43,17 @@ public class AttachmentController {
 		return new ResponseData(attachment.getFileName(), downloadURI, file.getContentType(), file.getSize());
 	}
 	
+	//save file locally
+	@PostMapping("/local")
+	public ResponseData uploadFileLocally(@RequestParam("file")MultipartFile file) throws Exception {
+		File path = new File("D:\\Java Programms"+file.getOriginalFilename());
+		FileOutputStream outputStream = new FileOutputStream(path);
+		outputStream.write(file.getBytes());
+		outputStream.close();
+		return new ResponseData(file.getOriginalFilename(), file.getName(), file.getContentType(), file.getSize());
+	}
+	
+	//download file 
 	@GetMapping("/download/{fileId}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) throws Exception{
 		Attachment attachment = null;
